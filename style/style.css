@@ -1,0 +1,23 @@
+
+canvas{
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    width:1200px;
+    height:900px;
+    
+}
+
+
+#background{
+	background-color: black;
+}
+h1{
+	width:55%;
+    margin-right: 22%;
+    margin-left:22%;
+}
+
+
