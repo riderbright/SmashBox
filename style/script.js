@@ -52,18 +52,22 @@ window.onload = function(){
 
     };    //define variables w unique input
     
-    var redShip = new SpaceShip(77,400,60,"sprites/spacey_1.png");
+    var redShip = new SpaceShip(77,400,60,"sprites/spacey_1_one.png");
         
     //var blueShip = new SpaceShip(77,222,60,"sprites/spacey_2.png");
     
     
+    //spacebox contructor function
+    //var SpaceBox = function(x,y,speed,src){
 
-    spaceBox = {
-        speed: 175,
-        x: 1000,
-        y: 350,
-    };
-    spaceBox.src = "";
+    //
+
+
+    //};
+
+
+    //define unique spaceBox
+    //var spaceBoxOne = new SpaceBox(1260,y,speed,src)
 
     console.log("elements ready");
     //extra objects declared
