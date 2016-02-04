@@ -4,10 +4,12 @@ var context;
 var bgImage;
 var bgReady;
 var redShipReady;
+var boxReady;
 var keysDown;
 
 
 window.onload = function(){
+
     //var bounds = canvas.getBoundingClientRect();
     canvas = document.createElement("canvas");
     context = canvas.getContext("2d");
@@ -26,21 +28,6 @@ window.onload = function(){
     
     
     //need extra input for shot function
-    var MakeBox = function(x,y,speed,src,shot,gameMove){
-        this.x = x;
-        this.y = y;
-        this.speed = speed;
-        this.src = src;
-        this.shot = shot;
-        this.gameMove = gameMove;
-        this.image = new Image();
-        this.image.src = src;
-        this.image.onload = function(){
-            boxReady = true;
-            console.log ("box ready");
-        };
-
-    };
     var SpaceShip = function(x,y,speed,src,shot,gameMove){
         this.x = x;
         this.y = y;
@@ -61,13 +48,8 @@ window.onload = function(){
     var redShip = new SpaceShip(100,390,250,"sprites/spacey_1_one.png",0,0);
     var blueShip = new SpaceShip(100,170,250,"sprites/spacey_2_one.png",0,0);
     var boxShip = new SpaceShip(1270,350,100,"sprites/spacey_box_1.png",100,10);
-    var boxShip = new MakeBox(1270,350,100,"sprites/spacey_box_1.png",100,10);    
-    
-
     console.log("elements ready");
-    //declare other extra game objects
-  
-    
+       
     
     keysDown = {}
         //add event
@@ -89,7 +71,7 @@ window.onload = function(){
     };
      
 
-//add switch function
+
     var update = function (modifier){
         // debugger
         if (boxShip.gameMove === 10) {
@@ -102,38 +84,18 @@ window.onload = function(){
             redShip.y += redShip.speed * modifier;
         }
 
-        //needs shot() keysDown
-        
-        //if (37 in keysDown) { 
-        //    redShip.x -= redShip.speed * modifier;
-        //}
-        //if (39 in keysDown) { 
-        //    redShip.x += redShip.speed * modifier;
-        //}
         if (87 in keysDown) { 
             blueShip.y -= blueShip.speed * modifier;
         }
         if (83 in keysDown) { 
             blueShip.y += blueShip.speed * modifier;
         }
-      
-        //if (65 in keysDown) { 
-        //    blueShip.x -= blueShip.speed * modifier;
-        //}
-        //if (68 in keysDown) { 
-        //    blueShip.x += blueShip.speed * modifier;
-        //}
-        //console.log("updating")
-        
+        //hit
         if (redShip.x <= (boxShip.x + 20)
             && boxShip.x <= (redShip.x + 20)
             && redShip.y <= (boxShip.y + 20)
             && boxShip.y <= (redShip.y + 20)
         
-        //   if (blueShip.x <= (boxShip.x + 25)
-        //    && boxShip.x <= (blueShip.x + 25)
-        //    && blueShip.y <= (boxShip.y + 25)
-        //    && boxShip.y <= (blueShip.y + 25)
         ) {console.log("Hit! * 7 red");
             
         }
@@ -161,16 +123,18 @@ window.onload = function(){
             
             //console.log("ship ready");
         };    
+    
     };
-
     //gameClock
     //tickTock game clock
+    
     var tickTock = function () {
         var now = Date.now();
         var delta = now - then;
     
         update(delta / 1000);
         drawGame();
+        
     
         then = now;
         //console.log("tick tock")
@@ -187,8 +151,9 @@ window.onload = function(){
     
     var then = Date.now();
     update();
-    tickTock(); 
+    tickTock();
+    
 };
-      
+     
             
       
