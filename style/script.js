@@ -27,7 +27,7 @@ window.onload = function(){
     bgImage.src = "sprites/canvas_1.png";
     
     
-
+    //need extra input for shot function
     var SpaceShip = function(x,y,speed,src,heart){
         this.x = x;
         this.y = y;
@@ -43,7 +43,7 @@ window.onload = function(){
 
     }; 
     
-    
+    //add shot function variable to SpaceShip construction
     var redShip = new SpaceShip(100,390,250,"sprites/spacey_1_one.png",3);
     var blueShip = new SpaceShip(100,170,250,"sprites/spacey_2_one.png",3);
     var boxShip = new SpaceShip(1100,350,100,"sprites/spacey_box_1.png",0);    
@@ -81,6 +81,8 @@ window.onload = function(){
         if (40 in keysDown) { 
             redShip.y += redShip.speed * modifier;
         }
+        //needs shot() keysDown
+        
         //if (37 in keysDown) { 
         //    redShip.x -= redShip.speed * modifier;
         //}
@@ -131,9 +133,9 @@ window.onload = function(){
         };    
     };
 
-//gameClock
-// main is main game clock
-    var main = function () {
+    //gameClock
+    //tickTock game clock
+    var tickTock = function () {
         var now = Date.now();
         var delta = now - then;
     
@@ -143,7 +145,7 @@ window.onload = function(){
         then = now;
         //console.log("tick tock")
         
-        requestAnimationFrame(main);
+        requestAnimationFrame(tickTock);
     };
     //keeps timer more even through different browser
     var w = window;
@@ -155,7 +157,7 @@ window.onload = function(){
     
     var then = Date.now();
     update();
-    main(); 
+    tickTock(); 
 };
       
             
