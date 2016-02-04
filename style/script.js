@@ -44,8 +44,8 @@ window.onload = function(){
     }; 
     
     
-    var redShip = new SpaceShip(100,450,100,"sprites/spacey_1_one.png",3);
-    var blueShip = new SpaceShip(100,250,100,"sprites/spacey_2_one.png",3);
+    var redShip = new SpaceShip(100,390,250,"sprites/spacey_1_one.png",3);
+    var blueShip = new SpaceShip(100,170,250,"sprites/spacey_2_one.png",3);
     var boxShip = new SpaceShip(1100,350,100,"sprites/spacey_box_1.png",0);    
     
 
@@ -81,13 +81,24 @@ window.onload = function(){
         if (40 in keysDown) { 
             redShip.y += redShip.speed * modifier;
         }
-        if (37 in keysDown) { 
-            redShip.x -= redShip.speed * modifier;
+        //if (37 in keysDown) { 
+        //    redShip.x -= redShip.speed * modifier;
+        //}
+        //if (39 in keysDown) { 
+        //    redShip.x += redShip.speed * modifier;
+        //}
+        if (87 in keysDown) { 
+            blueShip.y -= blueShip.speed * modifier;
         }
-        if (39 in keysDown) { 
-            redShip.x += redShip.speed * modifier;
+        if (83 in keysDown) { 
+            blueShip.y += blueShip.speed * modifier;
         }
-       
+        //if (65 in keysDown) { 
+        //    blueShip.x -= blueShip.speed * modifier;
+        //}
+        //if (68 in keysDown) { 
+        //    blueShip.x += blueShip.speed * modifier;
+        //}
         //console.log("updating")
         
         if (redShip.x <= (boxShip.x + 25)
