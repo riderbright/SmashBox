@@ -6,6 +6,7 @@ var bgReady;
 var redShipReady;
 var keysDown;
 
+
 window.onload = function(){
     //var bounds = canvas.getBoundingClientRect();
     canvas = document.createElement("canvas");
@@ -25,13 +26,26 @@ window.onload = function(){
     
     
     //need extra input for shot function
-    var SpaceShip = function(x,y,speed,src,redHeart,blueHeart,shot,gameMove){
+    var MakeBox = function(x,y,speed,src,shot,gameMove){
         this.x = x;
         this.y = y;
         this.speed = speed;
         this.src = src;
-        this.redHeart = redHeart;
-        this.blueHeart = blueHeart;
+        this.shot = shot;
+        this.gameMove = gameMove;
+        this.image = new Image();
+        this.image.src = src;
+        this.image.onload = function(){
+            boxReady = true;
+            console.log ("box ready");
+        };
+
+    };
+    var SpaceShip = function(x,y,speed,src,shot,gameMove){
+        this.x = x;
+        this.y = y;
+        this.speed = speed;
+        this.src = src;
         this.shot = shot;
         this.gameMove = gameMove;
         this.image = new Image();
@@ -44,9 +58,10 @@ window.onload = function(){
     }; 
     
     //add shot function variable to SpaceShip construction
-    var redShip = new SpaceShip(100,390,250,"sprites/spacey_1_one.png",1,1,0,0);
-    var blueShip = new SpaceShip(100,170,250,"sprites/spacey_2_one.png",1,1,0,0);
-    var boxShip = new SpaceShip(1270,350,100,"sprites/spacey_box_1.png",1,1,100,10);    
+    var redShip = new SpaceShip(100,390,250,"sprites/spacey_1_one.png",0,0);
+    var blueShip = new SpaceShip(100,170,250,"sprites/spacey_2_one.png",0,0);
+    var boxShip = new SpaceShip(1270,350,100,"sprites/spacey_box_1.png",100,10);
+    var boxShip = new MakeBox(1270,350,100,"sprites/spacey_box_1.png",100,10);    
     
 
     console.log("elements ready");
@@ -101,9 +116,7 @@ window.onload = function(){
         if (83 in keysDown) { 
             blueShip.y += blueShip.speed * modifier;
         }
-        if(boxShip.x <= -70) {
-            delete boxShip;
-        }
+      
         //if (65 in keysDown) { 
         //    blueShip.x -= blueShip.speed * modifier;
         //}
@@ -121,7 +134,7 @@ window.onload = function(){
         //    && boxShip.x <= (blueShip.x + 25)
         //    && blueShip.y <= (boxShip.y + 25)
         //    && boxShip.y <= (blueShip.y + 25)
-        ) { heart-=1;
+        ) {console.log("Hit! * 7")
             
         }
     };
