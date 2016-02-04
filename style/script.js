@@ -134,8 +134,15 @@ window.onload = function(){
         //    && boxShip.x <= (blueShip.x + 25)
         //    && blueShip.y <= (boxShip.y + 25)
         //    && boxShip.y <= (blueShip.y + 25)
-        ) {console.log("Hit! * 7")
+        ) {console.log("Hit! * 7 red");
             
+        }
+        if (blueShip.x <= (boxShip.x + 20)
+            && boxShip.x <= (blueShip.x + 20)
+            && blueShip.y <= (boxShip.y + 20)
+            && boxShip.y <= (blueShip.y + 20)
+        ){console.log("Hit! * 7 blue");
+
         }
     };
 
