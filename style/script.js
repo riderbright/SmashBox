@@ -16,9 +16,6 @@ window.onload = function(){
     
     document.body.appendChild(canvas);
     
-    
-
-    console.log ("canvas");
     bgImage = new Image();
     bgImage.onload = function(){
 	   bgReady = true;///
@@ -28,12 +25,15 @@ window.onload = function(){
     
     
     //need extra input for shot function
-    var SpaceShip = function(x,y,speed,src,heart){
+    var SpaceShip = function(x,y,speed,src,redHeart,blueHeart,shot,gameMove){
         this.x = x;
         this.y = y;
         this.speed = speed;
         this.src = src;
-        this.heart = heart;
+        this.redHeart = redHeart;
+        this.blueHeart = blueHeart;
+        this.shot = shot;
+        this.gameMove = gameMove;
         this.image = new Image();
         this.image.src = src;
         this.image.onload = function(){
@@ -44,9 +44,9 @@ window.onload = function(){
     }; 
     
     //add shot function variable to SpaceShip construction
-    var redShip = new SpaceShip(100,390,250,"sprites/spacey_1_one.png",3);
-    var blueShip = new SpaceShip(100,170,250,"sprites/spacey_2_one.png",3);
-    var boxShip = new SpaceShip(1100,350,100,"sprites/spacey_box_1.png",0);    
+    var redShip = new SpaceShip(100,390,250,"sprites/spacey_1_one.png",1,1,0,0);
+    var blueShip = new SpaceShip(100,170,250,"sprites/spacey_2_one.png",1,1,0,0);
+    var boxShip = new SpaceShip(1270,350,100,"sprites/spacey_box_1.png",1,1,100,10);    
     
 
     console.log("elements ready");
@@ -69,18 +69,24 @@ window.onload = function(){
         console.log("listeners ready");
     
     var reset = function () {
+
         
     };
      
 
 //add switch function
     var update = function (modifier){
+        // debugger
+        if (boxShip.gameMove === 10) {
+            boxShip.x -= 6; //* modifier;
+        }
         if (38 in keysDown) { 
             redShip.y -= redShip.speed * modifier;
         }
         if (40 in keysDown) { 
             redShip.y += redShip.speed * modifier;
         }
+
         //needs shot() keysDown
         
         //if (37 in keysDown) { 
@@ -95,6 +101,9 @@ window.onload = function(){
         if (83 in keysDown) { 
             blueShip.y += blueShip.speed * modifier;
         }
+        if(boxShip.x <= -70) {
+            delete boxShip;
+        }
         //if (65 in keysDown) { 
         //    blueShip.x -= blueShip.speed * modifier;
         //}
@@ -103,17 +112,17 @@ window.onload = function(){
         //}
         //console.log("updating")
         
-        if (redShip.x <= (boxShip.x + 25)
-            && boxShip.x <= (redShip.x + 25)
-            && redShip.y <= (boxShip.y + 25)
-            && boxShip.y <= (redShip.y + 25)
+        if (redShip.x <= (boxShip.x + 20)
+            && boxShip.x <= (redShip.x + 20)
+            && redShip.y <= (boxShip.y + 20)
+            && boxShip.y <= (redShip.y + 20)
         
         //   if (blueShip.x <= (boxShip.x + 25)
         //    && boxShip.x <= (blueShip.x + 25)
         //    && blueShip.y <= (boxShip.y + 25)
         //    && boxShip.y <= (blueShip.y + 25)
-        ) { heartCount=1;
-            reset();
+        ) { heart-=1;
+            
         }
     };
 
@@ -127,6 +136,7 @@ window.onload = function(){
             context.drawImage(boxShip.image,boxShip.x,boxShip.y);
             context.drawImage(redShip.image,redShip.x,redShip.y);
             context.drawImage(blueShip.image,blueShip.x,blueShip.y);
+        
         
             
             //console.log("ship ready");
