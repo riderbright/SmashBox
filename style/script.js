@@ -4,6 +4,7 @@ var context;
 var bgImage;
 var bgReady;
 var redShipReady;
+var keysDown;
 
 window.onload = function(){
     //var bounds = canvas.getBoundingClientRect();
@@ -53,16 +54,16 @@ window.onload = function(){
   
     
     
-    var keysDown = {}
+    keysDown = {}
         //add event
         document.addEventListener("keydown",function(e){
-            keysDown[e.keycode==38||40||39||37] = true
-            console.log("keys down")
+            keysDown[e.keyCode] = true
+            
         }, false);
         
         document.addEventListener("keyup",function(e){
-            delete keysDown[e.keycode==38||40||39||37];
-            console.log("keys down")    
+            delete keysDown[e.keyCode];
+                
         }, false);
         
         console.log("listeners ready");
@@ -70,12 +71,12 @@ window.onload = function(){
     var reset = function () {
         
     };
-    console.log("reset funk"); 
+     
 
 //add switch function
     var update = function (modifier){
         if (38 in keysDown) { 
-            redship.y -= redShip.speed * modifier;
+            redShip.y -= redShip.speed * modifier;
         }
         if (40 in keysDown) { 
             redShip.y += redShip.speed * modifier;
@@ -87,7 +88,7 @@ window.onload = function(){
             redShip.x += redShip.speed * modifier;
         }
        
-        console.log("updating")
+        //console.log("updating")
         
         if (redShip.x <= (boxShip.x + 25)
             && boxShip.x <= (redShip.x + 25)
@@ -107,7 +108,7 @@ window.onload = function(){
         //if if checklist
         if (bgReady){
             context.drawImage(bgImage,0,0);
-            console.log("elements on canvas");
+            //console.log("elements on canvas");
         } 
         if (redShipReady){
             context.drawImage(boxShip.image,boxShip.x,boxShip.y);
@@ -115,7 +116,7 @@ window.onload = function(){
             context.drawImage(blueShip.image,blueShip.x,blueShip.y);
         
             
-            console.log("ship ready");
+            //console.log("ship ready");
         };    
     };
 
@@ -129,7 +130,7 @@ window.onload = function(){
         drawGame();
     
         then = now;
-        console.log("tick tock")
+        //console.log("tick tock")
         
         requestAnimationFrame(main);
     };
