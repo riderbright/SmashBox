@@ -1,9 +1,11 @@
 
+
 var canvas;
 var context;
 var bgImage;
 var bgRange;
 var bgReady;
+var bgCloud;
 var redShipReady;
 var boxReady;
 var keysDown;
@@ -26,7 +28,7 @@ window.onload = function(){
     };
     bgImage.src = "sprites/canvas_1.png";
     
-    
+
     //need extra input for shot function
     var SpaceShip = function(x,y,speed,src,shot,gameMove){
         this.x = x;
@@ -44,12 +46,14 @@ window.onload = function(){
 
     }; 
     
-    //add shot function variable to SpaceShip construction
     
+    //add shot function variable to SpaceShip construction
     var redShip = new SpaceShip(100,390,250,"sprites/spacey_1_one.png",0,0);
     var blueShip = new SpaceShip(100,170,250,"sprites/spacey_2_one.png",0,0);
     var boxShip = new SpaceShip(1270,350,100,"sprites/spacey_box_1.png",100,10);
     var bgRange = new SpaceShip(0,450,0,"sprites/spacey_range_5.png",0,0);
+    var bgCloud = new SpaceShip(1100,250,0,"sprites/cloud_9.png",0,10);
+    
     
     console.log("elements ready");
        
@@ -78,6 +82,9 @@ window.onload = function(){
         // debugger
         if (boxShip.gameMove === 10) {
             boxShip.x -= 6; //* modifier;
+        }
+        if (bgCloud.gameMove === 10){
+            bgCloud.x -=2;
         }
         if (38 in keysDown) { 
             redShip.y -= redShip.speed * modifier;
@@ -118,11 +125,12 @@ window.onload = function(){
             //console.log("elements on canvas");
         } 
         if (redShipReady){
+            context.drawImage(bgCloud.image,bgCloud.x,bgCloud.y);
             context.drawImage(bgRange.image,bgRange.x,bgRange.y);
             context.drawImage(boxShip.image,boxShip.x,boxShip.y);
             context.drawImage(redShip.image,redShip.x,redShip.y);
             context.drawImage(blueShip.image,blueShip.x,blueShip.y);
-        
+
         
             
             //console.log("ship ready");
@@ -155,8 +163,9 @@ window.onload = function(){
     var then = Date.now();
     update();
     tickTock();
-    
+
 };
+
      
             
       
