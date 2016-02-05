@@ -9,7 +9,6 @@ var keysDown;
 
 
 window.onload = function(){
-
     //var bounds = canvas.getBoundingClientRect();
     canvas = document.createElement("canvas");
     context = canvas.getContext("2d");
@@ -69,8 +68,7 @@ window.onload = function(){
 
         
     };
-     
-
+    
 
     var update = function (modifier){
         // debugger
@@ -95,6 +93,7 @@ window.onload = function(){
             && boxShip.x <= (redShip.x + 20)
             && redShip.y <= (boxShip.y + 20)
             && boxShip.y <= (redShip.y + 20)
+        
         
         ) {console.log("Hit! * 7 red");
             
@@ -123,7 +122,6 @@ window.onload = function(){
             
             //console.log("ship ready");
         };    
-    
     };
     //gameClock
     //tickTock game clock
