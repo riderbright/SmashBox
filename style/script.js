@@ -8,8 +8,9 @@ var bgReady;
 var bgCloud;
 var redShipReady;
 var boxReady;
+var gameOverRed;
+var gameOverBlue;
 var keysDown;
-
 
 window.onload = function(){
     //var bounds = canvas.getBoundingClientRect();
@@ -53,8 +54,8 @@ window.onload = function(){
     var boxShip = new SpaceShip(1270,350,100,"sprites/spacey_box_1.png",10);
     var bgCloud = new SpaceShip(900,250,0,"sprites/cloud_9.png",10);
     var bgCloudNine = new SpaceShip(800,175,0,"sprites/cloud_9.png",10);
-
-    
+    var twoWin = new SpaceShip(420,175,0,"sprites/playa_two_victory.png",10);
+    var oneWin = new SpaceShip(420,175,0,"sprites/playa_one_victory.png",10);
     var reset = function () {
         this.x = 1270;
         this.y = 25 + (Math.random() * (canvas.height - 70));
@@ -94,6 +95,7 @@ window.onload = function(){
             }
             if(boxArray[i].x <-100){
                 boxArray[i].reset();
+            
             }
         }
         if (bgCloud.gameMove === 10){
@@ -107,6 +109,12 @@ window.onload = function(){
         }
         if (bgCloudNine.x < -1875){
             bgCloudNine.x = 850;
+        }
+        if (oneWin.gameMove === 10){
+            oneWin.x -=2;
+        }
+        if (twoWin.gameMove === 10){
+            oneWin.x +=2;
         }
         if (38 in keysDown) { 
             redShip.y -= redShip.speed * modifier;
@@ -148,6 +156,7 @@ window.onload = function(){
                 && blueShip.y <= (boxArray[i].y + 35)
                 && boxArray[i].y <= (blueShip.y + 35)
                 ){console.log("Hit! * 7 blue");
+                    
                     ++blueDeath
                     
                     boxArray[i].reset();
@@ -155,10 +164,11 @@ window.onload = function(){
         }
         if (blueDeath > 0){
             //context.drawImage()
-            gameOver = true;
+            gameOverBlue = true;
+
         } else if (redDeath > 0){
             //context.drawImage
-            gameOver = true;
+            gameOverRed = true;
         }
     };
     
@@ -179,7 +189,12 @@ window.onload = function(){
             context.drawImage(redShip.image,redShip.x,redShip.y);
             context.drawImage(blueShip.image,blueShip.x,blueShip.y);
         }
-            
+        if (gameOverRed){
+            context.drawImage(twoWin.image,twoWin.x,twoWin.y);
+        }
+        else if (gameOverBlue){
+            context.drawImage(oneWin.image,oneWin.x,oneWin.y);
+        }   
     };
    
     
