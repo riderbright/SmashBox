@@ -56,6 +56,7 @@ window.onload = function(){
     var bgCloudNine = new SpaceShip(800,175,0,"sprites/cloud_9.png",10);
     var twoWin = new SpaceShip(410,175,0,"sprites/playa_two_victory.png",10);
     var oneWin = new SpaceShip(410,175,0,"sprites/playa_one_victory.png",10);
+    
     var reset = function () {
         this.x = 1270;
         this.y = 25 + (Math.random() * (canvas.height - 70));
@@ -122,7 +123,6 @@ window.onload = function(){
         if (40 in keysDown) { 
             redShip.y += redShip.speed * modifier;
         }
-
         if (87 in keysDown) { 
             blueShip.y -= blueShip.speed * modifier;
         }
