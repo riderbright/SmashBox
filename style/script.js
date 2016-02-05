@@ -45,8 +45,8 @@ window.onload = function(){
 
     }; 
     
-    var redDeath = 1;
-    var blueDeath = 1;
+    var redDeath = 0;
+    var blueDeath = 0;
     
     var redShip = new SpaceShip(100,390,250,"sprites/spacey_1_one.png",0);
     var blueShip = new SpaceShip(100,170,250,"sprites/spacey_2_one.png",0);
@@ -54,6 +54,17 @@ window.onload = function(){
     var bgRange = new SpaceShip(0,450,0,"sprites/spacey_range_5.png",10);
     var bgCloud = new SpaceShip(1100,250,0,"sprites/cloud_9.png",10);
     
+    var reset = function () {
+        this.x = 1270;
+        this.y = 25 + (Math.random() * (canvas.height - 70));
+    };
+
+    var boxArray = [];
+    for(i=0;i<7;i++){
+        var box = new SpaceShip(1270+i*100,25 + (Math.random() * (canvas.height - 70)),100,"sprites/spacey_box_1.png",10);
+        box.reset = reset;
+        boxArray.push(box);
+    };
     
     console.log("elements ready");
        
@@ -72,24 +83,19 @@ window.onload = function(){
         
         console.log("listeners ready");
     
-    var reset = function () {
-        redShip.x = 100;
-        redShip.y = 390;
-        blueShip.x = 100;
-        blueShip.y = 170;
-
-        boxShip.x = 1270;
-        boxShip.y = 25 + (Math.random() * (canvas.height - 50))
-
-        
-    };
-    
 
     var update = function (modifier){
         // debugger
-        if (boxShip.gameMove === 10) {
-            boxShip.x -= 6; //* modifier;
+        for(i=0;i<boxArray.length;i++){
+            if (boxArray[i].gameMove === 10) {
+                boxArray[i].x -= 6; //* modifier;
+                
+            }
+            if(boxArray[i].x <-100){
+                boxArray[i].reset();
+            }
         }
+
         if (bgCloud.gameMove === 10){
             bgCloud.x -=2;
         }
@@ -108,24 +114,33 @@ window.onload = function(){
             blueShip.y += blueShip.speed * modifier;
         }
         //hit
-        if (redShip.x <= (boxShip.x + 30)
-            && boxShip.x <= (redShip.x + 30)
-            && redShip.y <= (boxShip.y + 30)
-            && boxShip.y <= (redShip.y + 30)
-            ) {console.log("Hit! * 7 red");
-                --redDeath;
-                    reset();
+        for(i=0;i<boxArray.length;i++){
+            if (redShip.x <= (boxArray[i].x + 30)
+                && boxArray[i].x <= (redShip.x + 30)
+                && redShip.y <= (boxArray[i].y + 35)
+                && boxArray[i].y <= (redShip.y + 35)
+                ) {console.log("Hit! * 7 red");
+                    ++redDeath;
+                    boxArray[i].reset();  
+            }
+            if (blueShip.x <= (boxArray[i].x + 30)
+                && boxArray[i].x <= (blueShip.x + 30)
+                && blueShip.y <= (boxArray[i].y + 35)
+                && boxArray[i].y <= (blueShip.y + 35)
+                ){console.log("Hit! * 7 blue");
+                    ++blueDeath
+                    boxArray[i].reset();
+            }
         }
-        if (blueShip.x <= (boxShip.x + 30)
-            && boxShip.x <= (blueShip.x + 30)
-            && blueShip.y <= (boxShip.y + 30)
-            && boxShip.y <= (blueShip.y + 30)
-            ){console.log("Hit! * 7 blue");
-                --blueDeath
-                    reset();
+        if (blueDeath > 0){
+            //context.drawImage()
+            gameOver = true;
+        } else if (redDeath > 0){
+            //context.drawImage
+            gameOver = true;
         }
     };
-
+    
     var drawGame = function(){
         //if if checklist
         if (bgReady){
@@ -135,14 +150,19 @@ window.onload = function(){
         if (redShipReady){
             context.drawImage(bgCloud.image,bgCloud.x,bgCloud.y);
             context.drawImage(bgRange.image,bgRange.x,bgRange.y);
-            context.drawImage(boxShip.image,boxShip.x,boxShip.y);
+            for(i=0;i<boxArray.length;i++){
+                context.drawImage(boxArray[i].image,boxArray[i].x,boxArray[i].y);
+    
+
+            };
             context.drawImage(redShip.image,redShip.x,redShip.y);
             context.drawImage(blueShip.image,blueShip.x,blueShip.y);
 
         
             
             //console.log("ship ready");
-        };    
+        }
+            
     };
     //gameClock
     //tickTock game clock
