@@ -2,6 +2,7 @@
 var canvas;
 var context;
 var bgImage;
+var bgRange;
 var bgReady;
 var redShipReady;
 var boxReady;
@@ -44,9 +45,12 @@ window.onload = function(){
     }; 
     
     //add shot function variable to SpaceShip construction
+    
     var redShip = new SpaceShip(100,390,250,"sprites/spacey_1_one.png",0,0);
     var blueShip = new SpaceShip(100,170,250,"sprites/spacey_2_one.png",0,0);
     var boxShip = new SpaceShip(1270,350,100,"sprites/spacey_box_1.png",100,10);
+    var bgRange = new SpaceShip(0,450,0,"sprites/spacey_range_5.png",0,0);
+    
     console.log("elements ready");
        
     
@@ -114,6 +118,7 @@ window.onload = function(){
             //console.log("elements on canvas");
         } 
         if (redShipReady){
+            context.drawImage(bgRange.image,bgRange.x,bgRange.y);
             context.drawImage(boxShip.image,boxShip.x,boxShip.y);
             context.drawImage(redShip.image,redShip.x,redShip.y);
             context.drawImage(blueShip.image,blueShip.x,blueShip.y);
