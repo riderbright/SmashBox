@@ -99,7 +99,9 @@ window.onload = function(){
         if (bgCloud.gameMove === 10){
             bgCloud.x -=2;
         }
-
+        if (bgCloud.x < -2000){
+            bgCloud.x = 1100;
+        }
         if (38 in keysDown) { 
             redShip.y -= redShip.speed * modifier;
         }
