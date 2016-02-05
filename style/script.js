@@ -30,12 +30,11 @@ window.onload = function(){
     
 
     //need extra input for shot function
-    var SpaceShip = function(x,y,speed,src,shot,gameMove){
+    var SpaceShip = function(x,y,speed,src,gameMove){
         this.x = x;
         this.y = y;
         this.speed = speed;
         this.src = src;
-        this.shot = shot;
         this.gameMove = gameMove;
         this.image = new Image();
         this.image.src = src;
@@ -46,20 +45,21 @@ window.onload = function(){
 
     }; 
     
+    var redDeath = 1;
+    var blueDeath = 1;
     
-    //add shot function variable to SpaceShip construction
-    var redShip = new SpaceShip(100,390,250,"sprites/spacey_1_one.png",0,0);
-    var blueShip = new SpaceShip(100,170,250,"sprites/spacey_2_one.png",0,0);
-    var boxShip = new SpaceShip(1270,350,100,"sprites/spacey_box_1.png",100,10);
-    var bgRange = new SpaceShip(0,450,0,"sprites/spacey_range_5.png",0,0);
-    var bgCloud = new SpaceShip(1100,250,0,"sprites/cloud_9.png",0,10);
+    var redShip = new SpaceShip(100,390,250,"sprites/spacey_1_one.png",0);
+    var blueShip = new SpaceShip(100,170,250,"sprites/spacey_2_one.png",0);
+    var boxShip = new SpaceShip(1270,350,100,"sprites/spacey_box_1.png",10);
+    var bgRange = new SpaceShip(0,450,0,"sprites/spacey_range_5.png",10);
+    var bgCloud = new SpaceShip(1100,250,0,"sprites/cloud_9.png",10);
     
     
     console.log("elements ready");
        
     
     keysDown = {}
-        //add event
+        
         document.addEventListener("keydown",function(e){
             keysDown[e.keyCode] = true
             
@@ -73,6 +73,13 @@ window.onload = function(){
         console.log("listeners ready");
     
     var reset = function () {
+        redShip.x = 100;
+        redShip.y = 390;
+        blueShip.x = 100;
+        blueShip.y = 170;
+
+        boxShip.x = 1270;
+        boxShip.y = 25 + (Math.random() * (canvas.height - 50))
 
         
     };
@@ -86,6 +93,7 @@ window.onload = function(){
         if (bgCloud.gameMove === 10){
             bgCloud.x -=2;
         }
+
         if (38 in keysDown) { 
             redShip.y -= redShip.speed * modifier;
         }
@@ -100,21 +108,21 @@ window.onload = function(){
             blueShip.y += blueShip.speed * modifier;
         }
         //hit
-        if (redShip.x <= (boxShip.x + 20)
-            && boxShip.x <= (redShip.x + 20)
-            && redShip.y <= (boxShip.y + 20)
-            && boxShip.y <= (redShip.y + 20)
-        
-        
-        ) {console.log("Hit! * 7 red");
-            
+        if (redShip.x <= (boxShip.x + 30)
+            && boxShip.x <= (redShip.x + 30)
+            && redShip.y <= (boxShip.y + 30)
+            && boxShip.y <= (redShip.y + 30)
+            ) {console.log("Hit! * 7 red");
+                --redDeath;
+                    reset();
         }
-        if (blueShip.x <= (boxShip.x + 20)
-            && boxShip.x <= (blueShip.x + 20)
-            && blueShip.y <= (boxShip.y + 20)
-            && boxShip.y <= (blueShip.y + 20)
-        ){console.log("Hit! * 7 blue");
-
+        if (blueShip.x <= (boxShip.x + 30)
+            && boxShip.x <= (blueShip.x + 30)
+            && blueShip.y <= (boxShip.y + 30)
+            && boxShip.y <= (blueShip.y + 30)
+            ){console.log("Hit! * 7 blue");
+                --blueDeath
+                    reset();
         }
     };
 
