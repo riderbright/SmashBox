@@ -95,7 +95,6 @@ window.onload = function(){
                 boxArray[i].reset();
             }
         }
-
         if (bgCloud.gameMove === 10){
             bgCloud.x -=2;
         }
@@ -114,6 +113,18 @@ window.onload = function(){
         }
         if (83 in keysDown) { 
             blueShip.y += blueShip.speed * modifier;
+        }
+        if (redShip.y < 0){
+            redShip.y = 0;
+        }
+        if (redShip.y > 600){
+            redShip.y = 600;
+        }
+        if (blueShip.y < 0){
+            blueShip.y = 0;
+        }
+        if (blueShip.y > 600){
+            blueShip.y = 600;
         }
         //hit
         for(i=0;i<boxArray.length;i++){
