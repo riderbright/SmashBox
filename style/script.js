@@ -49,13 +49,13 @@ window.onload = function(){
     var redDeath = 0;
     var blueDeath = 0;
     
-    var redShip = new SpaceShip(100,390,250,"sprites/spacey_1_one.png",0);
-    var blueShip = new SpaceShip(100,170,250,"sprites/spacey_2_one.png",0);
+    var redShip = new SpaceShip(100,170,250,"sprites/spacey_1_one.png",0);
+    var blueShip = new SpaceShip(100,390,250,"sprites/spacey_2_one.png",0);
     var boxShip = new SpaceShip(1270,350,100,"sprites/spacey_box_1.png",10);
     var bgCloud = new SpaceShip(900,250,0,"sprites/cloud_9.png",10);
     var bgCloudNine = new SpaceShip(800,175,0,"sprites/cloud_9.png",10);
-    var twoWin = new SpaceShip(420,175,0,"sprites/playa_two_victory.png",10);
-    var oneWin = new SpaceShip(420,175,0,"sprites/playa_one_victory.png",10);
+    var twoWin = new SpaceShip(410,175,0,"sprites/playa_two_victory.png",10);
+    var oneWin = new SpaceShip(410,175,0,"sprites/playa_one_victory.png",10);
     var reset = function () {
         this.x = 1270;
         this.y = 25 + (Math.random() * (canvas.height - 70));
