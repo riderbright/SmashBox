@@ -51,8 +51,9 @@ window.onload = function(){
     var redShip = new SpaceShip(100,390,250,"sprites/spacey_1_one.png",0);
     var blueShip = new SpaceShip(100,170,250,"sprites/spacey_2_one.png",0);
     var boxShip = new SpaceShip(1270,350,100,"sprites/spacey_box_1.png",10);
-    var bgRange = new SpaceShip(0,450,0,"sprites/spacey_range_5.png",10);
-    var bgCloud = new SpaceShip(1100,250,0,"sprites/cloud_9.png",10);
+    var bgCloud = new SpaceShip(900,250,0,"sprites/cloud_9.png",10);
+    var bgCloudNine = new SpaceShip(800,175,0,"sprites/cloud_9.png",10);
+
     
     var reset = function () {
         this.x = 1270;
@@ -85,10 +86,10 @@ window.onload = function(){
     
 
     var update = function (modifier){
-        // debugger
+       
         for(i=0;i<boxArray.length;i++){
             if (boxArray[i].gameMove === 10) {
-                boxArray[i].x -= 6; //* modifier;
+                boxArray[i].x -= 6; 
                 
             }
             if(boxArray[i].x <-100){
@@ -96,10 +97,16 @@ window.onload = function(){
             }
         }
         if (bgCloud.gameMove === 10){
-            bgCloud.x -=2;
+            bgCloud.x -= 1;
         }
         if (bgCloud.x < -2000){
             bgCloud.x = 1100;
+        }
+        if (bgCloudNine.gameMove === 10){
+            bgCloudNine.x -= 2;
+        }
+        if (bgCloudNine.x < -1875){
+            bgCloudNine.x = 850;
         }
         if (38 in keysDown) { 
             redShip.y -= redShip.speed * modifier;
@@ -117,14 +124,14 @@ window.onload = function(){
         if (redShip.y < 0){
             redShip.y = 0;
         }
-        if (redShip.y > 600){
-            redShip.y = 600;
+        if (redShip.y > 525){
+            redShip.y = 525;
         }
         if (blueShip.y < 0){
             blueShip.y = 0;
         }
-        if (blueShip.y > 600){
-            blueShip.y = 600;
+        if (blueShip.y > 525){
+            blueShip.y = 525;
         }
         //hit
         for(i=0;i<boxArray.length;i++){
@@ -142,6 +149,7 @@ window.onload = function(){
                 && boxArray[i].y <= (blueShip.y + 35)
                 ){console.log("Hit! * 7 blue");
                     ++blueDeath
+                    
                     boxArray[i].reset();
             }
         }
@@ -162,23 +170,18 @@ window.onload = function(){
         } 
         if (redShipReady){
             context.drawImage(bgCloud.image,bgCloud.x,bgCloud.y);
-            context.drawImage(bgRange.image,bgRange.x,bgRange.y);
+            context.drawImage(bgCloudNine.image,bgCloudNine.x,bgCloudNine.y);
+            
             for(i=0;i<boxArray.length;i++){
                 context.drawImage(boxArray[i].image,boxArray[i].x,boxArray[i].y);
-    
-
             };
+            
             context.drawImage(redShip.image,redShip.x,redShip.y);
             context.drawImage(blueShip.image,blueShip.x,blueShip.y);
-
-        
-            
-            //console.log("ship ready");
         }
             
     };
-    //gameClock
-    //tickTock game clock
+   
     
     var tickTock = function () {
         var now = Date.now();
@@ -186,14 +189,10 @@ window.onload = function(){
     
         update(delta / 1000);
         drawGame();
-        
-    
         then = now;
-        //console.log("tick tock")
-        
         requestAnimationFrame(tickTock);
     };
-    //keeps timer more even through different browser
+   
     var w = window;
     requestAnimationFrame = 
     w.requestAnimationFrame || 
