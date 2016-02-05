@@ -135,16 +135,16 @@ window.onload = function(){
         }
         //hit
         for(i=0;i<boxArray.length;i++){
-            if (redShip.x <= (boxArray[i].x + 30)
-                && boxArray[i].x <= (redShip.x + 30)
+            if (redShip.x <= (boxArray[i].x + 35)
+                && boxArray[i].x <= (redShip.x + 35)
                 && redShip.y <= (boxArray[i].y + 35)
                 && boxArray[i].y <= (redShip.y + 35)
                 ) {console.log("Hit! * 7 red");
                     ++redDeath;
                     boxArray[i].reset();  
             }
-            if (blueShip.x <= (boxArray[i].x + 30)
-                && boxArray[i].x <= (blueShip.x + 30)
+            if (blueShip.x <= (boxArray[i].x + 35)
+                && boxArray[i].x <= (blueShip.x + 35)
                 && blueShip.y <= (boxArray[i].y + 35)
                 && boxArray[i].y <= (blueShip.y + 35)
                 ){console.log("Hit! * 7 blue");
