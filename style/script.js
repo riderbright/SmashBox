@@ -1,4 +1,5 @@
-
+// Great job overall on this project Rider! Some feedback on how to make this even better will be
+// placed here and there in comments.
 
 var canvas;
 var context;
@@ -19,17 +20,17 @@ window.onload = function(){
     canvas.width = 1200;
     canvas.height = 600;
     console.log(context);
-    
+
     document.body.appendChild(canvas);
-    
+
     bgImage = new Image();
     bgImage.onload = function(){
 	   bgReady = true;///
         console.log("background loaded")
     };
     bgImage.src = "sprites/canvas_1.png";
-    
 
+    // You did a great job with using OOP for your SpaceShip!
     //need extra input for shot function
     var SpaceShip = function(x,y,speed,src,gameMove){
         this.x = x;
@@ -44,59 +45,63 @@ window.onload = function(){
             console.log ("red ready");
         };
 
-    }; 
-    
-    var redDeath = 0;
+    };
+    // redDeath and blueDeath sound cooler, but redDeaths is slightly more descriptive
+    var redDeath  = 0;
     var blueDeath = 0;
-    
-    var redShip = new SpaceShip(100,170,250,"sprites/spacey_1_one.png",0);
-    var blueShip = new SpaceShip(100,390,250,"sprites/spacey_2_one.png",0);
-    var boxShip = new SpaceShip(1270,350,100,"sprites/spacey_box_1.png",10);
-    var bgCloud = new SpaceShip(900,250,0,"sprites/cloud_9.png",10);
+    // JS doesn't care about whitespace so you can do stuff like this to make things pretty:
+    var redShip     = new SpaceShip(100,170,250,"sprites/spacey_1_one.png",0);
+    var blueShip    = new SpaceShip(100,390,250,"sprites/spacey_2_one.png",0);
+    var boxShip     = new SpaceShip(1270,350,100,"sprites/spacey_box_1.png",10);
+    var bgCloud     = new SpaceShip(900,250,0,"sprites/cloud_9.png",10);
     var bgCloudNine = new SpaceShip(800,175,0,"sprites/cloud_9.png",10);
-    var twoWin = new SpaceShip(410,175,0,"sprites/playa_two_victory.png",10);
-    var oneWin = new SpaceShip(410,175,0,"sprites/playa_one_victory.png",10);
-    
+    var twoWin      = new SpaceShip(410,175,0,"sprites/playa_two_victory.png",10);
+    var oneWin      = new SpaceShip(410,175,0,"sprites/playa_one_victory.png",10);
+    // this could use a comment explaining what it does, or a more destriptive funciton name
     var reset = function () {
         this.x = 1270;
         this.y = 25 + (Math.random() * (canvas.height - 70));
     };
-
+    // var boxes
     var boxArray = [];
     for(i=0;i<7;i++){
+      //  either a comment explaining some of the line below, or better yet variables that describe each peice like so:
+      // var x = 1270 + i * 100
+      // var y = 25 + (Math.random() * (canvas.height - 70)) ...
+      // var box = new SpaceShip(x, y...)
         var box = new SpaceShip(1270+i*100,25 + (Math.random() * (canvas.height - 70)),100,"sprites/spacey_box_1.png",10);
         box.reset = reset;
         boxArray.push(box);
     };
-    
-    console.log("elements ready");
-       
-    
-    keysDown = {}
-        
-        document.addEventListener("keydown",function(e){
-            keysDown[e.keyCode] = true
-            
-        }, false);
-        
-        document.addEventListener("keyup",function(e){
-            delete keysDown[e.keyCode];
-                
-        }, false);
-        
-        console.log("listeners ready");
-    
 
+    console.log("elements ready");
+
+
+    keysDown = {}
+    // I unindented these.
+    document.addEventListener("keydown",function(e){
+        keysDown[e.keyCode] = true
+
+    }, false);
+
+    document.addEventListener("keyup",function(e){
+        delete keysDown[e.keyCode];
+
+    }, false);
+
+    console.log("listeners ready");
+
+    // I'd love to see this refactored into some smaller funcitons. I did this and put it in a seperate file called refactor.js
     var update = function (modifier){
-       
+
         for(i=0;i<boxArray.length;i++){
             if (boxArray[i].gameMove === 10) {
-                boxArray[i].x -= 6; 
-                
+                boxArray[i].x -= 6;
+
             }
             if(boxArray[i].x <-100){
                 boxArray[i].reset();
-            
+
             }
         }
         if (bgCloud.gameMove === 10){
@@ -117,16 +122,16 @@ window.onload = function(){
         if (twoWin.gameMove === 10){
             oneWin.x +=2;
         }
-        if (38 in keysDown) { 
+        if (38 in keysDown) {
             redShip.y -= redShip.speed * modifier;
         }
-        if (40 in keysDown) { 
+        if (40 in keysDown) {
             redShip.y += redShip.speed * modifier;
         }
-        if (87 in keysDown) { 
+        if (87 in keysDown) {
             blueShip.y -= blueShip.speed * modifier;
         }
-        if (83 in keysDown) { 
+        if (83 in keysDown) {
             blueShip.y += blueShip.speed * modifier;
         }
         if (redShip.y < 0){
@@ -149,16 +154,16 @@ window.onload = function(){
                 && boxArray[i].y <= (redShip.y + 35)
                 ) {console.log("Hit! * 7 red");
                     ++redDeath;
-                    boxArray[i].reset();  
+                    boxArray[i].reset();
             }
             if (blueShip.x <= (boxArray[i].x + 35)
                 && boxArray[i].x <= (blueShip.x + 35)
                 && blueShip.y <= (boxArray[i].y + 35)
                 && boxArray[i].y <= (blueShip.y + 35)
                 ){console.log("Hit! * 7 blue");
-                    
+
                     ++blueDeath
-                    
+
                     boxArray[i].reset();
             }
         }
@@ -171,21 +176,21 @@ window.onload = function(){
             gameOverRed = true;
         }
     };
-    
+    // this could be refactored into a couple of methods too
     var drawGame = function(){
         //if if checklist
         if (bgReady){
             context.drawImage(bgImage,0,0);
             //console.log("elements on canvas");
-        } 
+        }
         if (redShipReady){
             context.drawImage(bgCloud.image,bgCloud.x,bgCloud.y);
             context.drawImage(bgCloudNine.image,bgCloudNine.x,bgCloudNine.y);
-            
+
             for(i=0;i<boxArray.length;i++){
                 context.drawImage(boxArray[i].image,boxArray[i].x,boxArray[i].y);
             };
-            
+
             context.drawImage(redShip.image,redShip.x,redShip.y);
             context.drawImage(blueShip.image,blueShip.x,blueShip.y);
         }
@@ -194,33 +199,31 @@ window.onload = function(){
         }
         else if (gameOverBlue){
             context.drawImage(oneWin.image,oneWin.x,oneWin.y);
-        }   
+        }
     };
-   
-    
+
+
     var tickTock = function () {
         var now = Date.now();
         var delta = now - then;
-    
+
         update(delta / 1000);
         drawGame();
         then = now;
         requestAnimationFrame(tickTock);
     };
-   
+
     var w = window;
-    requestAnimationFrame = 
-    w.requestAnimationFrame || 
-    w.webkitRequestAnimationFrame || 
-    w.msRequestAnimationFrame || 
+    requestAnimationFrame =
+    w.requestAnimationFrame ||
+    w.webkitRequestAnimationFrame ||
+    w.msRequestAnimationFrame ||
     w.mozRequestAnimationFrame;
-    
+
     var then = Date.now();
     update();
     tickTock();
-
+// this can all be factored out of window.onload and just call the methods that must fire on load from in there.
 };
 
-     
-            
-      
+// Excellent work! 
