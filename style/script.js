@@ -7,10 +7,13 @@ var bgRange;
 var bgReady;
 var bgCloud;
 var redShipReady;
+var drawRed;
+var shotMove
 var boxReady;
 var gameOverRed;
-var gameOverBlue;
+var redVictory;
 var keysDown;
+
 
 window.onload = function(){
     //var bounds = canvas.getBoundingClientRect();
@@ -46,32 +49,31 @@ window.onload = function(){
 
     }; 
     
-    var redDeath = 0;
-    var blueDeath = 0;
+    var redDeath=0;
+    var boxKill=0;
     
-    var redShip = new SpaceShip(100,170,250,"sprites/spacey_1_one.png",0);
-    var blueShip = new SpaceShip(100,390,250,"sprites/spacey_2_one.png",0);
-    var boxShip = new SpaceShip(1270,350,100,"sprites/spacey_box_1.png",10);
+    var redShip = new SpaceShip(100,170,300,"sprites/spacey_1_one.png",0);
     var bgCloud = new SpaceShip(900,250,0,"sprites/cloud_9.png",10);
-    var bgCloudNine = new SpaceShip(800,175,0,"sprites/cloud_9.png",10);
-    var twoWin = new SpaceShip(410,175,0,"sprites/playa_two_victory.png",10);
-    var oneWin = new SpaceShip(410,175,0,"sprites/playa_one_victory.png",10);
-    
+    var bgCloudNine = new SpaceShip(850,175,0,"sprites/cloud_9.png",10);
+    var redShot = new SpaceShip(100,redShip.y,250,"sprites/shot_red.png",10)
+    var boxSmash = new SpaceShip(redShot.x,redShot.y,100,"spacey_box_1_destroy_3.png",10);
+    var oneWin = new SpaceShip(1200,175,0,"sprites/playa_one_victory.png",10);
+
     var reset = function () {
         this.x = 1270;
         this.y = 25 + (Math.random() * (canvas.height - 70));
-    };
+    
+
+    }; 
+
 
     var boxArray = [];
-    for(i=0;i<7;i++){
+    for(i=0;i<18;i++){
         var box = new SpaceShip(1270+i*100,25 + (Math.random() * (canvas.height - 70)),100,"sprites/spacey_box_1.png",10);
         box.reset = reset;
         boxArray.push(box);
     };
-    
-    console.log("elements ready");
-       
-    
+   
     keysDown = {}
         
         document.addEventListener("keydown",function(e){
@@ -83,9 +85,7 @@ window.onload = function(){
             delete keysDown[e.keyCode];
                 
         }, false);
-        
-        console.log("listeners ready");
-    
+
 
     var update = function (modifier){
        
@@ -94,7 +94,7 @@ window.onload = function(){
                 boxArray[i].x -= 6; 
                 
             }
-            if(boxArray[i].x <-100){
+            if(boxArray[i].x <- 70) {
                 boxArray[i].reset();
             
             }
@@ -112,10 +112,7 @@ window.onload = function(){
             bgCloudNine.x = 850;
         }
         if (oneWin.gameMove === 10){
-            oneWin.x -=2;
-        }
-        if (twoWin.gameMove === 10){
-            oneWin.x +=2;
+            oneWin.x -= 2;
         }
         if (38 in keysDown) { 
             redShip.y -= redShip.speed * modifier;
@@ -123,11 +120,17 @@ window.onload = function(){
         if (40 in keysDown) { 
             redShip.y += redShip.speed * modifier;
         }
-        if (87 in keysDown) { 
-            blueShip.y -= blueShip.speed * modifier;
+        if (37 in keysDown) {
+            drawRed = true;             
         }
-        if (83 in keysDown) { 
-            blueShip.y += blueShip.speed * modifier;
+        if (redShot.x > 1200) {
+            redShot.x = 100
+            redShot.y = redShip.y
+            drawRed = false;
+            shotMove = false;
+        }
+        if (shotMove) {
+            redShot.x += 14;
         }
         if (redShip.y < 0){
             redShip.y = 0;
@@ -135,15 +138,8 @@ window.onload = function(){
         if (redShip.y > 525){
             redShip.y = 525;
         }
-        if (blueShip.y < 0){
-            blueShip.y = 0;
-        }
-        if (blueShip.y > 525){
-            blueShip.y = 525;
-        }
-        //hit
         for(i=0;i<boxArray.length;i++){
-            if (redShip.x <= (boxArray[i].x + 35)
+            if (redShip.x <= (boxArray[i].x + 40)
                 && boxArray[i].x <= (redShip.x + 35)
                 && redShip.y <= (boxArray[i].y + 35)
                 && boxArray[i].y <= (redShip.y + 35)
@@ -151,33 +147,46 @@ window.onload = function(){
                     ++redDeath;
                     boxArray[i].reset();  
             }
-            if (blueShip.x <= (boxArray[i].x + 35)
-                && boxArray[i].x <= (blueShip.x + 35)
-                && blueShip.y <= (boxArray[i].y + 35)
-                && boxArray[i].y <= (blueShip.y + 35)
-                ){console.log("Hit! * 7 blue");
-                    
-                    ++blueDeath
-                    
-                    boxArray[i].reset();
-            }
+      
         }
-        if (blueDeath > 0){
-            //context.drawImage()
-            gameOverBlue = true;
-
-        } else if (redDeath > 0){
-            //context.drawImage
+        for(i=0;i<boxArray.length;i++){
+            if (redShot.x  <= (boxArray[i].x + 40)
+                && boxArray[i].x <= (redShot.x + 35)
+                && redShot.y <= (boxArray[i].y + 35)
+                && boxArray[i].y <= (redShot.y + 35)
+                ) {console.log("BoxSmash");
+                   ++boxKill;
+                   boxArray[i].reset();  
+            }
+      
+        }
+        if (boxKill > 3){
+            redVictory = true;
+        }
+        if (redDeath > 3){
             gameOverRed = true;
+        }
+        if  (redDeath > 4){
+           window.location.reload();
         }
     };
     
+
     var drawGame = function(){
         //if if checklist
         if (bgReady){
             context.drawImage(bgImage,0,0);
             //console.log("elements on canvas");
         } 
+        if(redVictory){
+            context.drawImage(oneWin.image,oneWin.x,oneWin.y);
+        }
+        if (drawRed){
+            context.drawImage(redShot.image,redShot.x,redShip.y);
+            this.y = redShip.y;
+            redShot.y = this.y;
+            shotMove = true;
+        }
         if (redShipReady){
             context.drawImage(bgCloud.image,bgCloud.x,bgCloud.y);
             context.drawImage(bgCloudNine.image,bgCloudNine.x,bgCloudNine.y);
@@ -187,22 +196,14 @@ window.onload = function(){
             };
             
             context.drawImage(redShip.image,redShip.x,redShip.y);
-            context.drawImage(blueShip.image,blueShip.x,blueShip.y);
         }
-        if (gameOverRed){
-            context.drawImage(twoWin.image,twoWin.x,twoWin.y);
-        }
-        else if (gameOverBlue){
-            context.drawImage(oneWin.image,oneWin.x,oneWin.y);
-        }   
+        
     };
-   
-    
     var tickTock = function () {
         var now = Date.now();
         var delta = now - then;
     
-        update(delta / 1000);
+        update(delta / 1500);
         drawGame();
         then = now;
         requestAnimationFrame(tickTock);
@@ -222,5 +223,3 @@ window.onload = function(){
 };
 
      
-            
-      
