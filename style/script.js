@@ -16,7 +16,6 @@ var keysDown;
 
 
 window.onload = function(){
-    //var bounds = canvas.getBoundingClientRect();
     canvas = document.createElement("canvas");
     context = canvas.getContext("2d");
     canvas.width = 1200;
@@ -27,13 +26,12 @@ window.onload = function(){
     
     bgImage = new Image();
     bgImage.onload = function(){
-	   bgReady = true;///
+	   bgReady = true;
         console.log("background loaded")
     };
     bgImage.src = "sprites/canvas_1.png";
     
 
-    //need extra input for shot function
     var SpaceShip = function(x,y,speed,src,gameMove){
         this.x = x;
         this.y = y;
@@ -51,12 +49,14 @@ window.onload = function(){
     
     var redDeath=0;
     var boxKill=0;
-    
+
     var redShip = new SpaceShip(100,170,300,"sprites/spacey_1_one.png",0);
+    var smokePlume = new SpaceShip(49,redShip.y,0,"sprites/smoke_plume_2.png",10);
+    var smokePlumeOne = new SpaceShip(37,redShip.y,0,"sprites/smoke_plume_2.png",10);
     var bgCloud = new SpaceShip(900,250,0,"sprites/cloud_9.png",10);
-    var bgCloudNine = new SpaceShip(850,175,0,"sprites/cloud_9.png",10);
+    var bgCloudNine = new SpaceShip(900,175,0,"sprites/cloud_9.png",10);
     var redShot = new SpaceShip(100,redShip.y,250,"sprites/shot_red.png",10)
-    var boxSmash = new SpaceShip(redShot.x,redShot.y,100,"spacey_box_1_destroy_3.png",10);
+    var boxSmash = new SpaceShip(redShot.x,redShot.y,100,"sprites/spacey_box_1_destroy_3.png",10);
     var oneWin = new SpaceShip(1200,175,0,"sprites/playa_one_victory.png",10);
 
     var reset = function () {
@@ -68,7 +68,7 @@ window.onload = function(){
 
 
     var boxArray = [];
-    for(i=0;i<18;i++){
+    for(i=0;i<11;i++){
         var box = new SpaceShip(1270+i*100,25 + (Math.random() * (canvas.height - 70)),100,"sprites/spacey_box_1.png",10);
         box.reset = reset;
         boxArray.push(box);
@@ -81,7 +81,7 @@ window.onload = function(){
             
         }, false);
         
-        document.addEventListener("keyup",function(e){
+        document.addEventListener("keyup",function(e){ 
             delete keysDown[e.keyCode];
                 
         }, false);
@@ -101,15 +101,25 @@ window.onload = function(){
         }
         if (bgCloud.gameMove === 10){
             bgCloud.x -= 1;
+            bgCloudNine.x -= 2;
+            smokePlume.x -= 12;
+            smokePlumeOne.x -= 18;
         }
         if (bgCloud.x < -2000){
             bgCloud.x = 1100;
         }
-        if (bgCloudNine.gameMove === 10){
-            bgCloudNine.x -= 2;
-        }
         if (bgCloudNine.x < -1875){
             bgCloudNine.x = 850;
+        }
+        if (smokePlume.x <= 2) {
+            smokePlume.x = 84;
+            smokePlumeOne.y - 6;
+            smokePlume.y + 6;
+        }
+        if (smokePlumeOne.x <= 2) {
+            smokePlumeOne.x = 84;
+            smokePlumeOne.y - 6;
+            smokePlume.y + 6;
         }
         if (oneWin.gameMove === 10){
             oneWin.x -= 2;
@@ -160,23 +170,25 @@ window.onload = function(){
             }
       
         }
-        if (boxKill > 3){
+        if (boxKill > 21){
             redVictory = true;
         }
         if (redDeath > 3){
             gameOverRed = true;
         }
         if  (redDeath > 4){
-           window.location.reload();
+            window.location.reload();
+            //bgImage.src = "sprites/canvas_2.png";
+            
         }
     };
     
 
     var drawGame = function(){
-        //if if checklist
+        
         if (bgReady){
             context.drawImage(bgImage,0,0);
-            //console.log("elements on canvas");
+     
         } 
         if(redVictory){
             context.drawImage(oneWin.image,oneWin.x,oneWin.y);
@@ -193,7 +205,11 @@ window.onload = function(){
             
             for(i=0;i<boxArray.length;i++){
                 context.drawImage(boxArray[i].image,boxArray[i].x,boxArray[i].y);
+                
             };
+            context.drawImage(smokePlume.image,smokePlume.x,redShip.y+26)
+            context.drawImage(smokePlumeOne.image,smokePlumeOne.x,redShip.y+24)
+            context.drawImage(smokePlumeOne.image,smokePlumeOne.x +10,redShip.y+25)
             
             context.drawImage(redShip.image,redShip.x,redShip.y);
         }
@@ -203,7 +219,7 @@ window.onload = function(){
         var now = Date.now();
         var delta = now - then;
     
-        update(delta / 1500);
+        update(delta / 1200);
         drawGame();
         then = now;
         requestAnimationFrame(tickTock);
