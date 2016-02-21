@@ -51,8 +51,8 @@ window.onload = function(){
     var boxKill=0;
 
     var redShip = new SpaceShip(100,170,300,"sprites/spacey_1_one.png",0);
-    var smokePlume = new SpaceShip(49,redShip.y,0,"sprites/smoke_plume_2.png",10);
-    var smokePlumeOne = new SpaceShip(37,redShip.y,0,"sprites/smoke_plume_2.png",10);
+    var smokePlume = new SpaceShip(49,redShip.y,0,"sprites/smoke_plume_1.png",10);
+    var smokePlumeOne = new SpaceShip(37,redShip.y,0,"sprites/smoke_plume_1.png",10);
     var bgCloud = new SpaceShip(900,250,0,"sprites/cloud_9.png",10);
     var bgCloudNine = new SpaceShip(900,175,0,"sprites/cloud_9.png",10);
     var redShot = new SpaceShip(100,redShip.y,250,"sprites/shot_red.png",10)
