@@ -121,6 +121,7 @@ var dinoArray =
 "Apatosaurus yahnahpin",
 "Aragosaurus ischiaticus",
 "Aralosaurus tuberiferus",
+"Archaeopteryx",
 "Archaeornithoides deinosauriscus",
 "Archaeornithomimus asiaticus",
 "Arctosaurus osborni",
