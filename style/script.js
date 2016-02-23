@@ -1,5 +1,3 @@
-
-
 var canvas;
 var context;
 var bgImage;
@@ -8,10 +6,13 @@ var bgReady;
 var bgCloud;
 var redShipReady;
 var drawRed;
-var shotMove
+var shotMove;
+var drawSmash;
+var smashBox;
 var boxReady;
 var gameOverRed;
 var redVictory;
+var afterBurn;
 var keysDown;
 
 
@@ -20,14 +21,13 @@ window.onload = function(){
     context = canvas.getContext("2d");
     canvas.width = 1200;
     canvas.height = 600;
-    console.log(context);
     
     document.body.appendChild(canvas);
     
     bgImage = new Image();
     bgImage.onload = function(){
 	   bgReady = true;
-        console.log("background loaded")
+       
     };
     bgImage.src = "sprites/canvas_1.png";
     
@@ -42,7 +42,6 @@ window.onload = function(){
         this.image.src = src;
         this.image.onload = function(){
             redShipReady = true;
-            console.log ("red ready");
         };
 
     }; 
@@ -51,29 +50,39 @@ window.onload = function(){
     var boxKill=0;
 
     var redShip = new SpaceShip(100,170,300,"sprites/spacey_1_one.png",0);
+    var blueShip = new SpaceShip(100,300,300,"sprites/spacey_2_one.png",0);
+    //var rangeOne = new SpaceShip(0,532,0,"sprites/spacey_range_3.png",10);
+    //var rangeTwo = new SpaceShip(1200,532,0,"sprites/spacey_range_3.png",10);
     var smokePlume = new SpaceShip(49,redShip.y,0,"sprites/smoke_plume_1.png",10);
     var smokePlumeOne = new SpaceShip(37,redShip.y,0,"sprites/smoke_plume_1.png",10);
-    var bgCloud = new SpaceShip(900,250,0,"sprites/cloud_9.png",10);
-    var bgCloudNine = new SpaceShip(900,175,0,"sprites/cloud_9.png",10);
-    var redShot = new SpaceShip(100,redShip.y,250,"sprites/shot_red.png",10)
-    var boxSmash = new SpaceShip(redShot.x,redShot.y,100,"sprites/spacey_box_1_destroy_3.png",10);
-    var oneWin = new SpaceShip(1200,175,0,"sprites/playa_one_victory.png",10);
+    var burner = new SpaceShip(52,redShip.y,0,"sprites/shot_red_1.png",10);
+    var bgCloud = new SpaceShip(920,250,0,"sprites/cloud_9.png",10);
+    var bgCloudNine = new SpaceShip(920,175,0,"sprites/cloud_9.png",10);
+    var redShot = new SpaceShip(150,0,250,"sprites/shot_red.png",10)
+    var boxSmash = new SpaceShip(0,0,100,"sprites/spacey_box_1_destroy_3.png",10);
+    var oneWin = new SpaceShip(400,175,0,"sprites/playa_one_victory.png",10);
 
     var reset = function () {
         this.x = 1270;
-        this.y = 25 + (Math.random() * (canvas.height - 70));
+        this.y = 25 + (Math.random() * (canvas.height - 75));
     
 
     }; 
-
-
+    
     var boxArray = [];
-    for(i=0;i<11;i++){
-        var box = new SpaceShip(1270+i*100,25 + (Math.random() * (canvas.height - 70)),100,"sprites/spacey_box_1.png",10);
+    for(i=0;i<16;i++){
+        var box = new SpaceShip(1270+i*100,50 + (Math.random() * (canvas.height - 70)),100,"sprites/spacey_box_1.png",10);
         box.reset = reset;
         boxArray.push(box);
     };
    
+    var rockArray = [];
+    for(i=0;i<10;i++){
+        var rock = new SpaceShip(1270+i*100,50 + (Math.random() * (canvas.height - 70)),100,"sprites/spacey_block_2_b.png",10);
+        rock.reset = reset;
+        rockArray.push(rock);
+    };
+    
     keysDown = {}
         
         document.addEventListener("keydown",function(e){
@@ -94,32 +103,54 @@ window.onload = function(){
                 boxArray[i].x -= 6; 
                 
             }
-            if(boxArray[i].x <- 70) {
+            if(boxArray[i].x < canvas.width - 1270) {
                 boxArray[i].reset();
             
             }
         }
+         for(i=0;i<rockArray.length;i++){
+            if (rockArray[i].gameMove === 10) {
+                rockArray[i].x -= 6; 
+                
+            }
+            if(rockArray[i].x <- 70) {
+                rockArray[i].reset();
+            
+            }
+        }
         if (bgCloud.gameMove === 10){
-            bgCloud.x -= 1;
-            bgCloudNine.x -= 2;
+            bgCloud.x -= 1.8;
+            bgCloudNine.x -= 2.4;
+            //rangeOne.x -=1.2;
+            //rangeTwo.x-=1.2;
             smokePlume.x -= 12;
             smokePlumeOne.x -= 18;
+            afterBurn = true
+            boxSmash.y -= 0.4;
         }
         if (bgCloud.x < -2000){
             bgCloud.x = 1100;
         }
         if (bgCloudNine.x < -1875){
-            bgCloudNine.x = 850;
+            bgCloudNine.x = 920;
         }
+       //if (rangeOne.x <= -1200){
+       //    rangeOne.x = 1200;
+       //}
+       //if (rangeTwo.x <= -1200){
+       //    rangeTwo.x = 1200;     
+       //}
         if (smokePlume.x <= 2) {
             smokePlume.x = 84;
             smokePlumeOne.y - 6;
             smokePlume.y + 6;
+            afterBurn = true;
         }
         if (smokePlumeOne.x <= 2) {
             smokePlumeOne.x = 84;
             smokePlumeOne.y - 6;
             smokePlume.y + 6;
+            afterBurn = false;
         }
         if (oneWin.gameMove === 10){
             oneWin.x -= 2;
@@ -132,10 +163,11 @@ window.onload = function(){
         }
         if (37 in keysDown) {
             drawRed = true;             
+            redShot.y = redShip.y
         }
         if (redShot.x > 1200) {
             redShot.x = 100
-            redShot.y = redShip.y
+            //redShot.y = redShip.y  "for control of the shot"
             drawRed = false;
             shotMove = false;
         }
@@ -152,35 +184,46 @@ window.onload = function(){
             if (redShip.x <= (boxArray[i].x + 40)
                 && boxArray[i].x <= (redShip.x + 35)
                 && redShip.y <= (boxArray[i].y + 35)
-                && boxArray[i].y <= (redShip.y + 35)
-                ) {console.log("Hit! * 7 red");
+                && boxArray[i].y <= (redShip.y + 55)
+                ) {
                     ++redDeath;
                     boxArray[i].reset();  
             }
       
         }
-        for(i=0;i<boxArray.length;i++){
-            if (redShot.x  <= (boxArray[i].x + 40)
-                && boxArray[i].x <= (redShot.x + 35)
-                && redShot.y <= (boxArray[i].y + 35)
-                && boxArray[i].y <= (redShot.y + 35)
-                ) {console.log("BoxSmash");
-                   ++boxKill;
-                   boxArray[i].reset();  
+        if(drawRed) {
+            for(i=0;i<boxArray.length;i++){
+                if (redShot.x  <= (boxArray[i].x + 40)
+                    && boxArray[i].x <= (redShot.x + 35)
+                    && redShot.y <= (boxArray[i].y + 35)
+                    && boxArray[i].y <= (redShot.y + 35)
+                    ) {console.log("BoxSmash");
+                       ++boxKill;
+                       boxSmash.x = redShot.x;
+                       boxSmash.y = redShot.y;
+                       drawSmash = true;
+                       boxArray[i].reset();  
+                }
+          
             }
-      
+        }
+        if (boxSmash.y < redShot.y - 3){
+            drawSmash = false;
+            drawSmashOne = true;
+        }
+        if (boxSmash.y > redShot.y + 3){
+            drawSmash = false;
+            drawSmashOne = true;
         }
         if (boxKill > 21){
             redVictory = true;
+            redShip.src = "sprites/spacey_2_one.png";
         }
-        if (redDeath > 3){
+        if (redDeath >= 7){
+            bgImage.src = "sprites/canvas_3.png";
             gameOverRed = true;
         }
-        if  (redDeath > 4){
-            window.location.reload();
-            //bgImage.src = "sprites/canvas_2.png";
-            
-        }
+
     };
     
 
@@ -194,12 +237,15 @@ window.onload = function(){
             context.drawImage(oneWin.image,oneWin.x,oneWin.y);
         }
         if (drawRed){
-            context.drawImage(redShot.image,redShot.x,redShip.y);
-            this.y = redShip.y;
-            redShot.y = this.y;
+            context.drawImage(redShot.image,redShot.x,redShot.y);
             shotMove = true;
         }
+        if (afterBurn) {
+            context.drawImage(burner.image,burner.x +24,redShip.y -2)
+        }
         if (redShipReady){
+            //context.drawImage(rangeOne.image,rangeOne.x,rangeOne.y);
+            //context.drawImage(rangeTwo.image,rangeTwo.x,rangeTwo.y);
             context.drawImage(bgCloud.image,bgCloud.x,bgCloud.y);
             context.drawImage(bgCloudNine.image,bgCloudNine.x,bgCloudNine.y);
             
@@ -207,19 +253,25 @@ window.onload = function(){
                 context.drawImage(boxArray[i].image,boxArray[i].x,boxArray[i].y);
                 
             };
+            for(i=0;i<rockArray.length;i++){
+                context.drawImage(rockArray[i].image,rockArray[i].x,rockArray[i].y);
+            };
             context.drawImage(smokePlume.image,smokePlume.x,redShip.y+26)
             context.drawImage(smokePlumeOne.image,smokePlumeOne.x,redShip.y+24)
             context.drawImage(smokePlumeOne.image,smokePlumeOne.x +10,redShip.y+25)
-            
             context.drawImage(redShip.image,redShip.x,redShip.y);
         }
-        
+        if (drawSmash){
+            context.drawImage(boxSmash.image,boxSmash.x,boxSmash.y);
+            boxSmash.x += 2;
+            smashBox = true;
+        }
     };
     var tickTock = function () {
         var now = Date.now();
         var delta = now - then;
     
-        update(delta / 1200);
+        update(delta / 1300);
         drawGame();
         then = now;
         requestAnimationFrame(tickTock);
