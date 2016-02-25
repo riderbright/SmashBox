@@ -1,0 +1,31 @@
+<h1>THE FOSSIL RECORD</h1>
+
+<div4 class = "form_title">
+  sign up
+</div4><br>
+<%= form_for User.new do |f| %>
+  <div>
+    <%= f.text_field :email, placeholder: "email" %>
+  </div><br>
+  
+  <div>
+    <%= f.text_field :handle, placeholder: "user_name" %>
+  </div><br>
+  
+  <div>
+    <%= f.text_field :info, placeholder: "motto" %>
+  </div><br>
+  
+  <div>
+    <%= f.text_field :image, placeholder: "image_url" %>
+  </div><br>
+  
+  <div>
+    <%= f.password_field :password, placeholder: "password" %>
+  </div><br>
+  
+  <%= f.submit "Sign Up" %>
+
+<% end %><br>
+
+<a href="/">flash back</a>

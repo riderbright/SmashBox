@@ -1,0 +1,26 @@
+
+
+<h1>FOSSIL RECORD</h1>
+<div>
+	<div>
+		welcome<br>
+		to the<br>
+		fossil record<br>
+	</div><br>
+	
+	<div>
+		<h2><%= @user.handle %></h2><br>
+		
+		<p>
+			<%= @user.info %>
+		</p><br>
+		
+		<p>
+			<%= image_tag("#{@user.image}") %>
+		</p><br>
+
+	</div>
+<a href="/fossils/new">drop a fossil</a>
+
+</div>
+

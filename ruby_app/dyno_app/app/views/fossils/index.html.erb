@@ -1,0 +1,22 @@
+<% @fossils.each do |fossil| %>
+	
+	<% @user = User.find(fossil.user_id) %>
+		<div class="user_id"><strong><%= @user.handle %></strong>
+		</div>
+		<br>
+		<div class="status"><%= fossil.status %>
+		</div>
+			
+		<br>
+		<div class="77"><%= image_tag("#{fossil.image}") %></div>
+		<div class="Dig"><%= fossil.dig_count %></div><br><br>
+
+<a href="/fossils/new">drop a fossil?</a>
+<br>
+<br>
+<hr>
+<br>
+<% end %>
+<br>
+
+
