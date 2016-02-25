@@ -21,6 +21,7 @@ window.onload = function(){
     context = canvas.getContext("2d");
     canvas.width = 1200;
     canvas.height = 600;
+    console.log(context);
     
     document.body.appendChild(canvas);
     
@@ -42,6 +43,7 @@ window.onload = function(){
         this.image.src = src;
         this.image.onload = function(){
             redShipReady = true;
+            console.log ("red ready");
         };
 
     }; 
@@ -49,8 +51,8 @@ window.onload = function(){
     var redDeath=0;
     var boxKill=0;
 
-    var redShip = new SpaceShip(100,170,300,"sprites/spacey_1_one.png",0);
-    var blueShip = new SpaceShip(100,300,300,"sprites/spacey_2_one.png",0);
+    var redShip = new SpaceShip(100,170,300,"sprites/spacey_2_one.png",0);
+    var blueShip = new SpaceShip(100,300,300,"sprites/spacey_1_one.png",0);
     //var rangeOne = new SpaceShip(0,532,0,"sprites/spacey_range_3.png",10);
     //var rangeTwo = new SpaceShip(1200,532,0,"sprites/spacey_range_3.png",10);
     var smokePlume = new SpaceShip(49,redShip.y,0,"sprites/smoke_plume_1.png",10);
@@ -69,6 +71,9 @@ window.onload = function(){
 
     }; 
     
+    
+    //var gold = ["sprites/spacey_block_gold_shine_1.png", "sprites/spacey_block_gold_shine_2.png", "sprites/spacey_block_gold_shine_3.png", "sprites/space_block_gold_shine_4.png"]
+
     var boxArray = [];
     for(i=0;i<16;i++){
         var box = new SpaceShip(1270+i*100,50 + (Math.random() * (canvas.height - 70)),100,"sprites/spacey_box_1.png",10);
@@ -134,12 +139,12 @@ window.onload = function(){
         if (bgCloudNine.x < -1875){
             bgCloudNine.x = 920;
         }
-       //if (rangeOne.x <= -1200){
-       //    rangeOne.x = 1200;
-       //}
-       //if (rangeTwo.x <= -1200){
-       //    rangeTwo.x = 1200;     
-       //}
+        //if (rangeOne.x <= -1200){
+        //    rangeOne.x = 1200;
+        //}
+        //if (rangeTwo.x <= -1200){
+        //    rangeTwo.x = 1200;     
+        //}
         if (smokePlume.x <= 2) {
             smokePlume.x = 84;
             smokePlumeOne.y - 6;
@@ -172,7 +177,7 @@ window.onload = function(){
             shotMove = false;
         }
         if (shotMove) {
-            redShot.x += 14;
+            redShot.x += 16;
         }
         if (redShip.y < 0){
             redShip.y = 0;
@@ -188,6 +193,17 @@ window.onload = function(){
                 ) {
                     ++redDeath;
                     boxArray[i].reset();  
+            }
+      
+        }
+        for(i=0;i<rockArray.length;i++){
+            if (redShip.x <= (rockArray[i].x + 40)
+                && rockArray[i].x <= (redShip.x + 35)
+                && redShip.y <= (rockArray[i].y + 35)
+                && rockArray[i].y <= (redShip.y + 55)
+                ) {
+                    ++redDeath;
+                    rockArray[i].reset();  
             }
       
         }
