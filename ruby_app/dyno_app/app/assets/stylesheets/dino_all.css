@@ -3,23 +3,53 @@
 	font-family: 'Questrial', sans-serif;
 	color: white;
 	background-color: black;
+	background-image: url("DYNO.svg");
+	background-size: tile;
+	position: center;
 	text-align: center;
 
 }
+#topPage{
+	font-size: 42px;
+	font-family: 'Fira Sans', sans-serif;
+
+}
+
 .hr{
 	background-color: white;
 	color: white;
 	height:.25px;
-	width: 70%;
+	width: 60%;
 }
-.fossilDrops{
+.mega{
+	
+}
+.form{
+	font-size:18px;
+	padding-right: 22%;
+	padding-left: 22%;
+	max-width: 60%;
+	position: center;
 
 }
-.digs{
-
+.status{
+	font-size:22px;
+	padding-right: 22%;
+	padding-left: 22%;
+	max-width: 56%;
+	position: center;
 }
 .handle{
-	font-size: 66px;
+	font-size:63px;
+	padding-right: 22%;
+	padding-left: 22%;
+	max-width: 60%;
+	position: center;
+
+}
+.motto{
+	font-size:27px;
+
 
 }
 .container{

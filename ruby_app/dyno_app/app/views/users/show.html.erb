@@ -2,10 +2,8 @@
 <div class = "usersShow">
 	<div>
 		<h1> <%= @user.handle %> </h1>
-	</div><br>
-	
-	<div>
-		<h2><%= @user.info %></h2><br>
+
+		<h2 class = "motto"><%= @user.info %></h2><br>
 		<p>
 			<%= image_tag("#{@user.image}") %>
 		</p><br>

@@ -1,16 +1,15 @@
-<h1>FOSSIL RECORD</h1><br>
+<h1 class = "large_type">the fossil record</h1><br>
 
 <div4 class = "form_title">
  sign in
 </div4>
 <%= form_for @user, url: "/sessions", method: "post" do |f| %>
   <div>
-    <%= f.text_field :handle, placeholder: "user_name" %>
+    <%= f.text_field :handle, placeholder: "user_name", autocomplete: "off" %>
   </div>
   <div>
     <%= f.password_field :password, placeholder: "password" %>
-  </div>
-  <%= f.submit "Sign In" %>
+  </div><br>
+  <P><%= f.submit "Sign In" %></P>
 <% end %>
 <br>
-<a href="/">flash back</a>

@@ -1,7 +1,7 @@
 class SessionsController < ApplicationController
 
   def new
-    @user = User.first
+    @user = User.new
   end
 
   def create
@@ -12,7 +12,6 @@ class SessionsController < ApplicationController
       redirect_to "/users/#{@user.id}"
     else
       redirect_to "/sign_in"
-    
     end
   end
 
