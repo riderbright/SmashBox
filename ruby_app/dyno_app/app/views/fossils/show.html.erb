@@ -1,21 +1,21 @@
 <h1>THE FOSSIL RECORD</h1>
 
 <% @fossils.each do |fossil| %>
-	<div>
-		
-		<div1> 
+	<div class = "fossilDrops">
+	
+		<div>
 			<%= fossil.user_id %>
 			<%= fossil.status %>
-		</div1><br>
+		</div><br>
 		
-		<div0>
+		<div>
 			<%= image_tag("#{fossil.image}") %>
-		</div0><br>
+		</div><br>
 	
-		<divDig>
+		<div class = "digs">
 			<%= fossil.dig_count %>
-		</divDig><br>
-	
+		</div><br>
+	<hr class="hr">
 	</div>
-<%end%>
 
+<%end%>

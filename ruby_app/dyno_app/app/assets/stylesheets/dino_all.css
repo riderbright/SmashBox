@@ -1,0 +1,33 @@
+.body{
+	font-size: 33px;
+	font-family: 'Questrial', sans-serif;
+	color: white;
+	background-color: black;
+	text-align: center;
+
+}
+.hr{
+	background-color: white;
+	color: white;
+	height:.25px;
+	width: 70%;
+}
+.fossilDrops{
+
+}
+.digs{
+
+}
+.handle{
+	font-size: 66px;
+
+}
+.container{
+	padding-right: 22%;
+	padding-left: 22%;
+	max-width: 60%;
+	position: center;
+}
+img {
+	max-width:90%;
+}

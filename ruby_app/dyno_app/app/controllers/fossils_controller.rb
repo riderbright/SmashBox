@@ -3,6 +3,7 @@ class FossilsController < ApplicationController
   
   def index
     @fossils = Fossil.all
+   
     render :index
   
   end

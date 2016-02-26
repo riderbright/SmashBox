@@ -1,16 +1,16 @@
 <h1>THE FOSSIL RECORD</h1>
 
 <%= form_for @fossil do |f| %>
-	<h3>drop a fossil</h3>	
-		<h4>
+	<h3 class = "subHead">drop a fossil</h3>	
+		
 			<%= f.hidden_field :user_id, value: @user.id, required: true %>
-		</h4><br>
+		<br>
 		<div>
 			<%= f.text_area :status, placeholder: "status" %> 
 		</div><br>
 		<div>
 			<%= f.text_field :image, placeholder: "image_url" %>
-		</div><br>
+		</div><br><br>
 	<%= f.submit "drop" %>
 <% end %>
 

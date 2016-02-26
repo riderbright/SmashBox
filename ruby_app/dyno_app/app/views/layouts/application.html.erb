@@ -2,16 +2,22 @@
 <html>
 <head>
   <title>DynoApp</title>
-  <link href='https://fonts.googleapis.com/css?family=Ceviche+One|Chelsea+Market' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Questrial' rel='stylesheet' type='text/css'>
+
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 </head>
-<body>
-<%= image_tag("hero_1.png") %>
+<body class = "body">
 <br>
+<h1 class = "mega" ><%= image_tag("dyno_hero.svg") %></h1>
+<br>
+
 <%= yield %>
-<%= link_to "log out", "/sessions/logout" %>
+<br>
+<br>
+<br>
+<a href= "/sessions/logout"><%= image_tag("dyno_logout.png")%></a>
 </body>
 </html>
 
