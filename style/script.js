@@ -38,6 +38,7 @@ window.onload = function(){
         this.y = y;
         this.speed = speed;
         this.src = src;
+        //this.src = [i]
         this.gameMove = gameMove;
         this.image = new Image();
         this.image.src = src;
@@ -48,6 +49,21 @@ window.onload = function(){
 
     }; 
     
+    var animateShip = function(x,y,speed,src,gameMove){
+        this.x = x;
+        this.y = y;
+        this.speed = speed;
+        this.src = src;
+        //this.src = [i]
+        this.gameMove = gameMove;
+        this.image = new Image();
+        this.image.src = src;
+        this.image.onload = function(){
+            redShipReady = true;
+            console.log ("red ready");
+        };
+
+    }; 
     var redDeath=0;
     var boxKill=0;
 
@@ -60,8 +76,10 @@ window.onload = function(){
     var burner = new SpaceShip(52,redShip.y,0,"sprites/shot_red_1.png",10);
     var bgCloud = new SpaceShip(920,250,0,"sprites/cloud_9.png",10);
     var bgCloudNine = new SpaceShip(920,175,0,"sprites/cloud_9.png",10);
-    var redShot = new SpaceShip(150,0,250,"sprites/shot_red.png",10)
+    var redShot = new SpaceShip(150,0,250,"sprites/red_shot_9.png",10)
+    var burnerTwo = new SpaceShip(150,0,250,"sprites/shot_red_1.png",10);
     var boxSmash = new SpaceShip(0,0,100,"sprites/spacey_box_1_destroy_3.png",10);
+    var boxSmashTwo = new SpaceShip(0,0,100,"sprites/spacey_box_1_destroy_4.png",10);
     var oneWin = new SpaceShip(400,175,0,"sprites/playa_one_victory.png",10);
 
     var reset = function () {
@@ -87,7 +105,12 @@ window.onload = function(){
         rock.reset = reset;
         rockArray.push(rock);
     };
-    
+    var stoneArray = [];
+    for(i=0;i<8;i++){
+        var stone = new SpaceShip(1270+i*100,50 + (Math.random() * (canvas.height - 70)),100,"sprites/spacey_box_1.png",10);
+        stone.reset = reset;
+        stoneArray.push(stone);
+    };
     keysDown = {}
         
         document.addEventListener("keydown",function(e){
@@ -131,7 +154,7 @@ window.onload = function(){
             smokePlume.x -= 12;
             smokePlumeOne.x -= 18;
             afterBurn = true
-            boxSmash.y -= 0.4;
+            boxSmash.y -= 0.3;
         }
         if (bgCloud.x < -2000){
             bgCloud.x = 1100;
@@ -177,7 +200,7 @@ window.onload = function(){
             shotMove = false;
         }
         if (shotMove) {
-            redShot.x += 16;
+            redShot.x += 21;
         }
         if (redShip.y < 0){
             redShip.y = 0;
@@ -230,6 +253,7 @@ window.onload = function(){
         if (boxSmash.y > redShot.y + 3){
             drawSmash = false;
             drawSmashOne = true;
+        
         }
         if (boxKill > 21){
             redVictory = true;
@@ -259,6 +283,9 @@ window.onload = function(){
         if (afterBurn) {
             context.drawImage(burner.image,burner.x +24,redShip.y -2)
         }
+        if (afterBurn&&shotMove) {
+            context.drawImage(burnerTwo.image,redShot.x,redShot.y)
+        }
         if (redShipReady){
             //context.drawImage(rangeOne.image,rangeOne.x,rangeOne.y);
             //context.drawImage(rangeTwo.image,rangeTwo.x,rangeTwo.y);
@@ -282,12 +309,13 @@ window.onload = function(){
             boxSmash.x += 2;
             smashBox = true;
         }
+        
     };
     var tickTock = function () {
         var now = Date.now();
         var delta = now - then;
     
-        update(delta / 1300);
+        update(delta / 1000);
         drawGame();
         then = now;
         requestAnimationFrame(tickTock);
